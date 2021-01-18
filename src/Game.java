@@ -1,3 +1,4 @@
+import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 
 /**
@@ -102,7 +103,12 @@ public class Game
 
         currentRoom = outside;  // start game outside
 
-        motorHome.setItem(new Item("Drill"));
+        motorHome.setItem(new Item("helmet"));
+        garage.setItem(new Item("drill"));
+        analytics.setItem(new Item("timings"));
+        gym.setItem(new Item("water"));
+        pitLane.setItem(new Item("gloves"));
+
     }
 
     /**
@@ -114,7 +120,7 @@ public class Game
         System.out.println("Welcome to the McLaren Formula 1 pit crew!");
         System.out.println("One of our cars is leading the race and needs to come into the pits!");
         System.out.println("The driver and the pit crew need some items to complete the pit stop and win the race.");
-        System.out.println("You need to gather these items and bring them to the pit lane!");
+        System.out.println("You need to gather these items and bring them to the pit wall!");
         System.out.println("The whole team is counting on you!");
         System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
         System.out.println();
@@ -154,7 +160,7 @@ public class Game
                 dropItem(command);
 
             case GO:
-                goRoom(command);
+                wantToQuit = goRoom(command);
                 break;
 
             case QUIT:
@@ -249,13 +255,13 @@ public class Game
      * Try to go in one direction. If there is an exit, enter the new
      * room, otherwise print an error message.
      */
-    private void goRoom(Command command) 
+    private boolean goRoom(Command command)
     {
         if(!command.hasSecondWord()) 
         {
             // if there is no second word, we don't know where to go...
             System.out.println("Go where?");
-            return;
+            return false;
         }
 
         String direction = command.getSecondWord();
@@ -269,7 +275,12 @@ public class Game
         else {
             currentRoom = nextRoom;
             System.out.println(currentRoom.getLongDescription());
+            if (currentRoom == pitWall) {
+                System.out.println("Congratulations you made it!");
+                return true;
+            }
         }
+        return false;
     }
 
     /** 
