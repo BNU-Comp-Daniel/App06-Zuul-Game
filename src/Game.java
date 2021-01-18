@@ -101,6 +101,7 @@ public class Game
         pitWall.setExit("east", pitLane);
 
         currentRoom = outside;  // start game outside
+
     }
 
     /**
@@ -136,6 +137,10 @@ public class Game
                 System.out.println("I don't know what you mean...");
                 break;
 
+            case INVENTORY:
+                    printInventory();
+                    break;
+
             case HELP:
                 printHelp();
                 break;
@@ -149,6 +154,16 @@ public class Game
                 break;
         }
         return wantToQuit;
+    }
+
+    private void printInventory()
+    {
+        String output = "";
+        for (int i = 0; i < inventory.size(); i++) {
+            output += inventory.get(i).getDescription() + " ";
+        }
+        System.out.println("you are carrying");
+        System.out.println(output);
     }
 
     // implementations of user commands:

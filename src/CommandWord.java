@@ -4,12 +4,14 @@
  * 
  * @author  Michael Kölling and David J. Barnes
  * @version 2016.02.29
+ *
+ * Modified by Daniel Hale 18/01/2021
  */
 public enum CommandWord
 {
     // A value for each command word along with its
     // corresponding user interface string.
-    GO("go"), QUIT("quit"),
+    GO("go"), QUIT("quit"), INVENTORY("inventory"),
     HELP("help"), UNKNOWN("?");
     
     // The command string.
