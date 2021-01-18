@@ -101,6 +101,8 @@ public class Game
         pitWall.setExit("east", pitLane);
 
         currentRoom = outside;  // start game outside
+
+        motorHome.setItem(new Item("Drill"));
     }
 
     /**
@@ -140,9 +142,16 @@ public class Game
                     printInventory();
                     break;
 
+            case GET:
+                getItem(command);
+                break;
+
             case HELP:
                 printHelp();
                 break;
+
+            case DROP:
+                dropItem(command);
 
             case GO:
                 goRoom(command);
@@ -153,6 +162,61 @@ public class Game
                 break;
         }
         return wantToQuit;
+    }
+
+    private void dropItem(Command command)
+    {
+        if(!command.hasSecondWord())
+        {
+            // if there is no second word, we don't know what to drop...
+            System.out.println("Drop what?");
+            return;
+        }
+
+        String item = command.getSecondWord();
+
+        // try to drop item in the room
+        Item newItem = null;
+        int index = 0;
+        for (int i = 0; i < inventory.size(); i++) {
+            if (inventory.get(i).getDescription().equals(item)) {
+                newItem = inventory.get(i);
+                index = i;
+            }
+        }
+
+        if (newItem == null) {
+            System.out.println("That item is not in your inventory!");
+        }
+        else {
+            inventory.remove(index);
+            currentRoom.setItem(new Item(item));
+            System.out.println("Dropped:" + item);
+        }
+    }
+
+    private void getItem(Command command)
+    {
+        if(!command.hasSecondWord())
+        {
+            // if there is no second word, we don't know what to get...
+            System.out.println("Get what?");
+            return;
+        }
+
+        String item = command.getSecondWord();
+
+        // try to get item in the room
+        Item newItem = currentRoom.getItem(item);
+
+        if (newItem == null) {
+            System.out.println("That item is not here!");
+        }
+        else {
+            inventory.add(newItem);
+            currentRoom.removeItem(item);
+            System.out.println("Picked up:" + item);
+        }
     }
 
     private void printInventory()
