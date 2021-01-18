@@ -23,7 +23,7 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
-        
+    Room outside, garage, motorHome, pitLane, analytics, mediaRoom, gym, pitWall;
     /**
      * Create the game and initialise its internal map.
      */
@@ -32,6 +32,11 @@ public class Game
         parser = new Parser();
         createRooms();
         play();
+    }
+
+    public static void main(String[] args) {
+        Game myGame = new Game();
+        myGame.play();
     }
 
     /**
@@ -60,28 +65,37 @@ public class Game
      */
     private void createRooms()
     {
-        Room outside, theater, pub, lab, office;
-
         // create the rooms
-        outside = new Room("outside the main entrance of the university");
-        theater = new Room("in a lecture theater");
-        pub = new Room("in the campus pub");
-        lab = new Room("in a computing lab");
-        office = new Room("in the computing admin office");
+        outside = new Room("outside");
+        garage = new Room("in the garage");
+        motorHome = new Room("in the motor home");
+        pitLane = new Room("at the pit lane");
+        analytics = new Room("in the analytics room");
+        mediaRoom = new Room("in the media room");
+        gym = new Room("in the gym");
+        pitWall = new Room("on the pit wall");
 
         // initialise room exits
-        outside.setExit("east", theater);
-        outside.setExit("south", lab);
-        outside.setExit("west", pub);
+        outside.setExit("east", mediaRoom);
+        outside.setExit("south", garage);
+        outside.setExit("west", gym);
+        outside.setExit("north", motorHome);
 
-        theater.setExit("west", outside);
+        motorHome.setExit("south", outside);
 
-        pub.setExit("east", outside);
+        mediaRoom.setExit("west", outside);
 
-        lab.setExit("north", outside);
-        lab.setExit("east", office);
+        gym.setExit("east", outside);
 
-        office.setExit("west", lab);
+        garage.setExit("north", outside);
+        garage.setExit("east", analytics);
+        garage.setExit("south", pitLane);
+
+        analytics.setExit("west", garage);
+
+        pitLane.setExit("west", pitWall);
+
+        pitWall.setExit("east", pitLane);
 
         currentRoom = outside;  // start game outside
     }
@@ -92,8 +106,11 @@ public class Game
     private void printWelcome()
     {
         System.out.println();
-        System.out.println("Welcome to the World of Zuul!");
-        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
+        System.out.println("Welcome to the McLaren Formula 1 pit crew!");
+        System.out.println("One of our cars is leading the race and needs to come into the pits!");
+        System.out.println("The driver and the pit crew need some items to complete the pit stop and win the race.");
+        System.out.println("You need to gather these items and bring them to the pit lane!");
+        System.out.println("The whole team is counting on you!");
         System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
         System.out.println();
         System.out.println(currentRoom.getLongDescription());
