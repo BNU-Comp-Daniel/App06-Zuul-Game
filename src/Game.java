@@ -101,7 +101,6 @@ public class Game
         pitWall.setExit("east", pitLane);
 
         currentRoom = outside;  // start game outside
-
     }
 
     /**
